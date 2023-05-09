@@ -1,3 +1,4 @@
+
 SELECT * FROM autores;
 INSERT INTO autores(codigo,nombre) VALUES("1010","Ciencias de la computacion");
 
@@ -11,5 +12,8 @@ VALUES("CC","103132388","aaaaa","cra21 n12-140","3235056137");
 SELECT * FROM prestamos;
 INSERT INTO prestamos(fechaprestamo,fechadevolucion,usuarios_id,libros_id) 
 VALUES("17/04/95","17/04/96",1,1);
+
+Los usuarios que tienen devoluciones pendientes indicando la cantidad.
+SELECT u.nombre, count(*) FROM prestamos p JOIN usuarios u  on(p.usuarios_id=u.id) Group by nombre;
 
 
