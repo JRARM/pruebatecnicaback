@@ -1,0 +1,88 @@
+-- MySQL Workbench Synchronization
+-- Generated: 2023-05-09 11:28
+-- Model: New Model
+-- Version: 1.0
+-- Project: Name of the project
+-- Author: JRARM
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+CREATE SCHEMA IF NOT EXISTS `prestamosdb` DEFAULT CHARACTER SET utf8 ;
+
+CREATE TABLE IF NOT EXISTS `prestamosdb`.`autores` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `codigo` VARCHAR(45) NULL DEFAULT NULL,
+  `nombre` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `prestamosdb`.`libros` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `codigo` VARCHAR(45) NULL DEFAULT NULL,
+  `titulo` VARCHAR(45) NULL DEFAULT NULL,
+  `isbn` VARCHAR(45) NULL DEFAULT NULL,
+  `editorial` VARCHAR(45) NULL DEFAULT NULL,
+  `numpaginas` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `prestamosdb`.`usuarios` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `tipodocumento` VARCHAR(45) NULL DEFAULT NULL,
+  `numidentificacion` VARCHAR(45) NULL DEFAULT NULL,
+  `nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `direccion` VARCHAR(45) NULL DEFAULT NULL,
+  `telefono` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `prestamosdb`.`libros_has_autor` (
+  `libros_id` INT(11) NOT NULL,
+  `autor_id` INT(11) NOT NULL,
+  PRIMARY KEY (`libros_id`, `autor_id`),
+  INDEX `fk_libros_has_autor_autor1_idx` (`autor_id` ASC) ,
+  INDEX `fk_libros_has_autor_libros_idx` (`libros_id` ASC) ,
+  CONSTRAINT `fk_libros_has_autor_libros`
+    FOREIGN KEY (`libros_id`)
+    REFERENCES `prestamosdb`.`libros` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_libros_has_autor_autor1`
+    FOREIGN KEY (`autor_id`)
+    REFERENCES `prestamosdb`.`autores` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `prestamosdb`.`prestamos` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `fechaprestamo` VARCHAR(45) NULL DEFAULT NULL,
+  `fechadevolucion` VARCHAR(45) NULL DEFAULT NULL,
+  `usuarios_id` INT(11) NOT NULL,
+  `libros_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `usuarios_id`, `libros_id`),
+  INDEX `fk_prestamos_usuarios1_idx` (`usuarios_id` ASC) ,
+  INDEX `fk_prestamos_libros1_idx` (`libros_id` ASC) ,
+  CONSTRAINT `fk_prestamos_usuarios1`
+    FOREIGN KEY (`usuarios_id`)
+    REFERENCES `prestamosdb`.`usuarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_prestamos_libros1`
+    FOREIGN KEY (`libros_id`)
+    REFERENCES `prestamosdb`.`libros` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

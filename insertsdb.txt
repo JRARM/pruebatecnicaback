@@ -1,0 +1,15 @@
+SELECT * FROM autores;
+INSERT INTO autores(codigo,nombre) VALUES("1010","Ciencias de la computacion");
+
+SELECT * FROM libros;
+INSERT INTO libros(codigo,titulo,isbn,editorial,numpaginas) VALUES("1010","Ciencias de la computacion","2391858","LoSun",1000);
+
+SELECT * FROM usuarios;
+INSERT INTO usuarios(tipodocumento,numidentificacion,nombre,direccion,telefono) 
+VALUES("CC","103132388","aaaaa","cra21 n12-140","3235056137");
+
+SELECT * FROM prestamos;
+INSERT INTO prestamos(fechaprestamo,fechadevolucion,usuarios_id,libros_id) 
+VALUES("17/04/95","17/04/96",1,1);
+
+
